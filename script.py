@@ -8,8 +8,13 @@
 # Python Version: 2.7              #
 ####################################
 
+#!/usr/bin/python
+
 import requests
 import json
+from time import sleep
+import serial
+
 
 def post_value(value, id_sensor):
 	authentication = ('roliveira', 'roliveira1993194')
@@ -26,6 +31,16 @@ def get_info_sm(id_sm_or_name, type_info): # in minutos
 	print data[str(type_info)]
 
 
-post_value(1213,47)
+#post_value(1213,47)
 #
 #get_info_sm('arduino_nano','seding_time')
+
+
+#read usb port 
+
+# Establish the connection on a specific port
+ser = serial.Serial('/dev/ttyUSB0', 9600) 
+
+x = 1 while True:
+       print ser.readline() # Read the newest output 
+       x += 1

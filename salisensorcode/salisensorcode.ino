@@ -1,25 +1,36 @@
 
+int port_luminosity = 4;
+int port_temperature = 7;
+int port_level = 1; 
+int LED = 2; 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  pinMode(LED, OUTPUT);
 
 }
 
-int port_luminosity = 4;
-int port_temperature = 7;
-int port_level = 1; 
+
 
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //Serial.println(readTemperature(port_temperature));
-  Serial.println(readLuminosity(port_luminosity));
+  //
+  setLed(LED, 1);
   
+  Serial.print(readLuminosity(port_luminosity));
+  Serial.print(";");
+  Serial.print(readTemperature(port_temperature));
+  Serial.print(";");
+  Serial.print(readWaterLevel(port_level));
+  Serial.print(";");
+  Serial.print(readLed(LED));
+  Serial.print("\n");
   //Serial.println(readLiquidLevel(port_level));
   //Serial.println(readSoilMoisture(5)); 
   
-  delay(60);        // delay in between reads for stability
+  //delay(60);        // delay in between reads for stability
   
 }
 
@@ -46,7 +57,7 @@ long readLuminosity(int port){
   return perc;
 }
 
-int readLiquidLevel(int port){
+int readWaterLevel(int port){
   int value = analogRead(port);
   
   if (value == 0)
@@ -55,6 +66,14 @@ int readLiquidLevel(int port){
     return 1;
 }
 
-int readSoilMoisture(int port){
-  return digitalRead(3);
+int readLed(int port){
+  return digitalRead(port);
 }
+
+void setLed(int port, int state){
+  if (state == 1)
+    digitalWrite(LED,HIGH);
+  else 
+    digitalWrite(LED,LOW);
+}
+

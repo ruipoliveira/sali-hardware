@@ -41,6 +41,5 @@ def get_info_sm(id_sm_or_name, type_info): # in minutos
 # Establish the connection on a specific port
 ser = serial.Serial('/dev/ttyUSB0', 9600) 
 
-x = 1 while True:
-       print ser.readline() # Read the newest output 
-       x += 1
+while True:
+	print ser.readline() # Read the newest output 

@@ -1,8 +1,8 @@
 
 int port_luminosity = 0;
 int port_temperature = 3;
-int port_level = 4; 
-int port_valve = 2; 
+int port_level = 2; 
+int port_valve = 3; 
 
 int status_valve; 
 
@@ -11,18 +11,19 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   //pinMode(port_valve, OUTPUT);
+  pinMode(port_level, OUTPUT);
+  //setWaterValve(port_valve, 1); 
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   
-  //setWaterValve(port_valve, 0); 
   //Serial.print(readLuminosity(port_luminosity));
   //Serial.print(";");
-  Serial.print(readTemperature(port_temperature));
+  //Serial.print(readTemperature(port_temperature));
   //Serial.print(";");
-  //Serial.print(readWaterLevel(port_level));
+  Serial.print(readWaterLevel(port_level));
   //Serial.print(";");
   //Serial.print(readWaterValve(port_valve));
   Serial.print("\n");
@@ -68,12 +69,15 @@ long readLuminosity(int port){
 }
 
 int readWaterLevel(int port){
-  int value = analogRead(port);
-  Serial.print(value);
-  if (value == 0)
+  int value = digitalRead(port);
+  
+  //Serial.print(value);
+  
+  /*if (value == 0)
     return 0;
   else
     return 1;
+    */
 }
 
 int readWaterValve(int port){

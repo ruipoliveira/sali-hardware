@@ -23,21 +23,29 @@ import random
 
 auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
 
-"""
-def post_value(value, id_sensor):
+
+
+
+
+def read_value_in_sensor(value, id_sensor):
 	login_payload = {'value': value}
 	url = 'http://127.0.0.1:8000/api/reading/'+str(id_sensor)
 	response = requests.post(url, 
 		data=login_payload,
 		headers=auth)
-"""
+
+
+
 
 # type_info: seding_time status_sm baterry_sm
 def get_info_sm(id_sm_or_name, type_info): # in minutos
-	url = 'http://192.168.160.20/api/sensortype/'
+	url = 'http://192.168.160.20/api/cm/'
 	response = requests.get(url, headers=auth )
 	data = response.json()
 	print data#[str(type_info)]
+
+
+def read_valve(id_valve):
 
 
 #post_value(1213,1)
@@ -50,8 +58,6 @@ def get_info_sm(id_sm_or_name, type_info): # in minutos
 
 
 def read_arduino(pathUSB):
-	# Establish the connection on a specific port
-	
 
 	ser = serial.Serial(
 	    port=pathUSB,
@@ -61,27 +67,46 @@ def read_arduino(pathUSB):
 	    bytesize=serial.SEVENBITS
 	)
 
-	#ser.isOpen()
-	print 'Enter your commands below.\r\nInsert "exit" to leave the application.'
 
+	id_sensor_temperatura = 
+	id_sensor_level = 
+	id_sensor_luminosidade = 
+	id_sensor_valve = 
 
-	#ser = serial.Serial(pathUSB, 9600, timeout=5) 
-
-	#data = ser.readline()
-	#ser.flushInput()
-
-	#ser.isOpen()
-	#ser.flushInput()
-	
-
+	ser.readline() 
 	while True:
 		#ser.write(str(random.randint(0, 1)))
 		
 		#out = ''
-		#time.sleep(1)
-		print ser.readline()
+		
 
-		time.sleep(1)
+		##ser.write(str(random.randint(0, 1)))
+
+		#print ser.readline()
+		data_split = ser.readline().split(';')
+
+		print time.strftime("%Y-%m-%d %H:%M")
+		print 'temperatura = '+str(data_split[0])
+		read_value_in_sensor(data_split[0], id_sensor_temperatura)
+
+		print 'Level = '+str(data_split[1])
+		read_value_in_sensor(data_split[1], id_sensor_level)
+
+		print 'Luminosidade = '+str(data_split[2])
+		read_value_in_sensor(data_split[2], id_sensor_luminosidade)
+
+		print 'Valve = '+str(data_split[3])
+		read_value_in_sensor(data_split[3], id_sensor_valve)
+
+		print '============================='
+
+
+
+		#time.sleep(1)
+
+
+
+
 
 
 
@@ -115,7 +140,7 @@ print '============================='
 
 # <luminosidade>;<temperatura>;<nivel>;<valvula> 
 
-read_arduino('/dev/ttyUSB1')
+read_arduino('/dev/ttyUSB3')
 #get_info_sm('dsa','name')
 
 

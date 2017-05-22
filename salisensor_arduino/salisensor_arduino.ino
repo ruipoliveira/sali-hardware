@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>  
  
 SoftwareSerial mySerial(10, 11); // RX, TX  
-int bluetoothData;
+int bluetoothData; // variable to receive data 
 int port_luminosity = 0;
 int port_temperature = 3;
 int port_level = 2;
@@ -18,7 +18,6 @@ void setup(){
 }
 
 void loop(){  
-
 
   if (mySerial.available()){
     bluetoothData=mySerial.read();
@@ -57,19 +56,22 @@ void loop(){
 }// END loop()  
 
 
+/* read luminosity in port analog */
 long readLuminosity(int port){
   return analogRead(port);
 }
 
-
+/* read water level in port digital*/
 int readWaterLevel(int port){
   return digitalRead(port);
 }
 
+/*read water valve in port digital*/ 
 int readWaterValve(int port){
   return digitalRead(port);
 }
 
+/*read temperature in port analog */
 int readTemperature(int port){
   int Vo;
   float R1 = 10000;
@@ -82,10 +84,11 @@ int readTemperature(int port){
   T = (1.0 / (c1 + c2*logR2 + c3*logR2*logR2*logR2));
   Tc = T - 273.15;
   Tf = (Tc * 9.0)/ 5.0 + 32.0; 
-   
+  
   return Tc;
 }
 
+/*function set water valve */
 void setWaterValve(int port, int state){
   if (state == 1){
     digitalWrite(port,HIGH);

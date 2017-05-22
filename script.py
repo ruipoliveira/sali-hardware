@@ -30,16 +30,12 @@ id_sensor_valve = 11
 id_sm = 5 
 
 
-
-
 def read_value_in_sensor(value, id_sensor):
 	login_payload = {'value': value}
 	url = 'http://192.168.160.20/api/reading/'+str(id_sensor)
 	response = requests.post(url, 
 		data=login_payload,
 		headers=auth)
-
-
 
 
 def get_baterry_percentage(): 
@@ -119,7 +115,7 @@ def read_data_arduino(pathUSB):
 #read usb port 
 
 
-
+	
 
 ######## to run... ########
 read_data_arduino('/dev/ttyUSB0')

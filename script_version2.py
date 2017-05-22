@@ -3,7 +3,7 @@ import bluetooth
 import socket
 
 target_name = "HC-06"
-target_address = None //the address from the Arduino sensor
+target_address = None 
 port = 1
 
 nearby_devices = bluetooth.discover_devices()
@@ -21,7 +21,6 @@ else:
 
 sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
 sock.connect((target_address,port))
-
 
 print ("ligado...")
 

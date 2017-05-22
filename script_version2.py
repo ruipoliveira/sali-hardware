@@ -4,7 +4,7 @@ import socket
 
 target_name = "HC-06"
 target_address = None 
-port = 1
+port = 0
 
 nearby_devices = bluetooth.discover_devices()
 

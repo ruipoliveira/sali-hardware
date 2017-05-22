@@ -19,6 +19,10 @@ else:
     print ("could not find target bluetooth device nearby")
 
 
+for services in bluetooth.find_service(address = target_address):
+        print (" Port: %s" % (services["port"]))
+
+
 sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
 sock.connect((target_address,port))
 

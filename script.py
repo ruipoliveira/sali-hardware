@@ -1,4 +1,4 @@
-####################################
+2####################################
 # File name: script.py             #
 # Version: 1                       #
 # Author: Rui Oliveira             #
@@ -23,10 +23,13 @@ import commands
 
 auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
 
-id_sensor_temperature = 3
-id_sensor_level = 12
-id_sensor_luminosity = 4
-id_sensor_valve = 12
+id_sensor_temperature = 8
+id_sensor_level = 10
+id_sensor_luminosity = 9
+id_sensor_valve = 11
+id_sm = 5 
+
+
 
 
 def read_value_in_sensor(value, id_sensor):
@@ -35,6 +38,8 @@ def read_value_in_sensor(value, id_sensor):
 	response = requests.post(url, 
 		data=login_payload,
 		headers=auth)
+
+
 
 
 def get_baterry_percentage(): 
@@ -49,6 +54,14 @@ def get_baterry_percentage():
     return after_perc[:index]
 
 
+def get_seding_time(id_sm): # in minutos
+	url = 'http://192.168.160.20/api/sm/'+str(id_sm)
+	response = requests.get(url, headers=auth )
+	data = response.json()
+	return data['seding_time']
+	
+
+
 def read_data_arduino(pathUSB):
 	ser = serial.Serial(
 	    port=pathUSB,
@@ -59,41 +72,43 @@ def read_data_arduino(pathUSB):
 	)
 
 
-
-
 	ser.readline() 
 	while True:
 		#ser.write(str(random.randint(0, 1)))
-
+		print ser.readline() 
 		#print ser.readline()
-		data_split = ser.readline().split(';')
+
+		
 		# <TEMPERATURE>;<LEVEL WATER>;<LUMINOSITY>;<WATER VALVE> 
+
+		t = time.strftime("%Y-%m-%d %H:%M")
+
+
+		data_split = ser.readline().split(';')
+
 
 		print time.strftime("%Y-%m-%d %H:%M")
 		print 'TEMPERATURE = '+str(data_split[0])
 		read_value_in_sensor(data_split[0], id_sensor_temperature)
 
-		#print 'LEVEL WATER = '+str(data_split[1])
-		#read_value_in_sensor(data_split[1], id_sensor_level)
+		print 'LEVEL WATER = '+str(data_split[1])
+		read_value_in_sensor(data_split[1], id_sensor_level)
 
 		print 'LUMINOSITY = '+str(data_split[2])
 		read_value_in_sensor(data_split[2], id_sensor_luminosity)
 
-		#print 'WATER VALVE = '+str(data_split[3])
-		#read_value_in_sensor(data_split[3], id_sensor_valve)
+		print 'WATER VALVE = '+str(data_split[3])
+		read_value_in_sensor(data_split[3], id_sensor_valve)
+
+		print 'BATERIA: '+str(get_baterry_percentage()) +'%'
 
 		print '============================='
-
 
 		time.sleep(60*get_seding_time(id_sm))
 
 
 
-def get_seding_time(id_sm): # in minutos
-	url = 'http://192.168.160.20/api/sm/'+str(id_sm)
-	response = requests.get(url, headers=auth )
-	data = response.json()
-	return data['seding_time']
+
 
 
 #post_value(1213,1)
@@ -107,7 +122,7 @@ def get_seding_time(id_sm): # in minutos
 
 
 ######## to run... ########
-#read_data_arduino('/dev/ttyUSB3')
+read_data_arduino('/dev/ttyUSB0')
 #print get_baterry_percentage()
 
 
@@ -120,9 +135,9 @@ def get_seding_time(id_sm): # in minutos
 #get_seding_time(2)
 
 
-while True:
-	print time.strftime("%Y-%m-%d %H:%M")
-	read_value_in_sensor(random.randint(0, 100), id_sensor_temperature)
-	read_value_in_sensor(random.randint(0, 100), id_sensor_luminosity)
-	print "outro...."
-	time.sleep(60*get_seding_time(2))
+#while True:
+#	print time.strftime("%Y-%m-%d %H:%M")
+#	read_value_in_sensor(random.randint(0, 100), id_sensor_temperature)
+#	read_value_in_sensor(random.randint(0, 100), id_sensor_luminosity)
+#	print "outro...."
+#	time.sleep(60*get_seding_time(2))

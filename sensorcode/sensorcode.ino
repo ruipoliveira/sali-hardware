@@ -1,6 +1,6 @@
 
 int port_luminosity = 0;
-int port_temperature = 3;
+  int port_temperature = 3;
 int port_level = 2;
 int port_valve = 3; 
 

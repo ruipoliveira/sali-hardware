@@ -1,10 +1,9 @@
-
 import bluetooth
 import socket
 
 target_name = "HC-06"
 target_address = None 
-port = 0
+port = 1
 
 nearby_devices = bluetooth.discover_devices()
 
@@ -29,11 +28,10 @@ sock.connect((target_address,port))
 print ("connection established...")
 
 while 1:
-	tosend = raw_input()
-	if tosend != 'q':
-		sock.send(tosend)
-	else:
-		break
+    text = input()
+    if text == "quit":
+        break
+    s.send(bytes(text, 'UTF-8'))
  
 sock.close()
 

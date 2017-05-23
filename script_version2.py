@@ -20,20 +20,20 @@ else:
 
 
 for services in bluetooth.find_service(address = target_address):
-        print (" Port: %s" % (services["port"]))
+	print (" Port: %s" % (services["port"]))
 
 
 sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
 sock.connect((target_address,port))
 
-print ("ligado...")
+print ("connection established...")
 
-#while 1:
-#        tosend = raw_input()
-#        if tosend != 'q':
-#                sock.send(tosend)
-#        else:
-#                break
+while 1:
+	tosend = raw_input()
+	if tosend != 'q':
+		sock.send(tosend)
+	else:
+		break
  
 sock.close()
 

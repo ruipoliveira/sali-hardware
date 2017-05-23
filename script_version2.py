@@ -31,7 +31,7 @@ while 1:
     text = input()
     if text == "quit":
         break
-    s.send(bytes(text, 'UTF-8'))
+    sock.send(bytes(text, 'UTF-8'))
  
 sock.close()
 

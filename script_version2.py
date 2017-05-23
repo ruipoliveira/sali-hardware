@@ -32,17 +32,18 @@ client_sock,address = sock.accept()
 print ("connection established...")
 
 while 1:
-    text = input()
-
+	text = input()
+	sock.send(bytes(text, 'UTF-8'))
+	
     if text == "2": # receive data
     	data = client_sock.recv(1024)
-		print ("received [%s]" % data)
+    	print ("received [%s]" % data)
+	
+	if text == "quit":
+		break
+	
 
-    if text == "quit":
-        break
-    sock.send(bytes(text, 'UTF-8'))
- 
-sock.close()
+	sock.close()
 
 
 

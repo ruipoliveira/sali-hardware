@@ -23,11 +23,11 @@ void loop(){
     bluetoothData=mySerial.read();
     if (bluetoothData=='0'){// valve off 
       setWaterValve(port_valve, 0);
-      mySerial.print("OFF OK!\n");
+      //mySerial.print("OFF OK!\n");
     }
     if(bluetoothData=='1'){ // valve on 
       setWaterValve(port_valve, 1);
-      mySerial.print("ON OK!\n");
+      //mySerial.print("ON OK!\n");
     }
     if (bluetoothData=='2'){// send data
       mySerial.print(readTemperature(port_temperature));

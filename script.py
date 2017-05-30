@@ -1,14 +1,4 @@
-2####################################
-# File name: script.py             #
-# Version: 1                       #
-# Author: Rui Oliveira             #
-# Email: ruipedrooliveira@ua.pt    #
-# Date create: 29-03-2017          #
-# Date last modified: 26-04-2017   #
-# Python Version: 2.7              #
-####################################
 
-#!/usr/bin/python
 
 import requests
 import json

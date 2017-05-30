@@ -1,9 +1,51 @@
+####################################
+# File name: script.py             #
+# Version: 1                       #
+# Author: Rui Oliveira             #
+# Email: ruipedrooliveira@ua.pt    #
+# Date create: 29-03-2017          #
+# Date last modified: 30-05-2017   #
+# Python Version: 2.7              #
+####################################
+
+#!/usr/bin/python
+
 import bluetooth
 import socket
+import requests
+import json
+from time import sleep
+import time 
+import string
+import random
+
+auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
+
+id_sensor_temperature = 8
+id_sensor_level = 10
+id_sensor_luminosity = 9
+id_sensor_valve = 11
+id_sm = 5
 
 target_name = "HC-06"
 target_address = None 
 port = 1
+
+
+def get_seding_time(id_sm): # in minutos
+	url = 'http://192.168.160.20/api/sm/'+str(id_sm)
+	response = requests.get(url, headers=auth )
+	data = response.json()
+	return data['seding_time']
+
+
+def read_value_in_sensor(value, id_sensor):
+	login_payload = {'value': value}
+	url = 'http://192.168.160.20/api/reading/'+str(id_sensor)
+	response = requests.post(url, 
+		data=login_payload,
+		headers=auth)
+	
 
 nearby_devices = bluetooth.discover_devices()
 
@@ -38,7 +80,13 @@ while 1:
 					data_end = data.find('\n')
 					if data_end != -1:
 						rec = data[:data_end]
-						print (data)
+						data_split = data.rstrip().split(';')
+						print (time.strftime("%Y-%m-%d %H:%M"))
+						print ("TEMPERATURE = "+str(data_split[0]))
+						print ('LEVEL WATER = '+str(data_split[1]))
+						print ('LUMINOSITY = '+str(data_split[2]))
+						print ('WATER VALVE = '+str(data_split[3]))
+						print ('=============================')
 						data = data[data_end+1:]
 						break 
 				except KeyboardInterrupt:

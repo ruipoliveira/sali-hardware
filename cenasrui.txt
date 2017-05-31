@@ -15,3 +15,6 @@ network={
 
 
 etc/wpa_supplicant/wpa_supplicant.conf
+
+192.168.47.159
+

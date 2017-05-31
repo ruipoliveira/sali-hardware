@@ -21,11 +21,11 @@ import random
 
 auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
 
-id_sensor_temperature = 8
-id_sensor_level = 10
-id_sensor_luminosity = 9
-id_sensor_valve = 11
-id_sm = 5
+id_sensor_temperature = 15
+id_sensor_level = 17
+id_sensor_luminosity = 16
+id_sensor_valve = 18
+id_sm = 8
 
 target_name = "HC-06"
 target_address = None 
@@ -83,9 +83,13 @@ while 1:
 						data_split = data.rstrip().split(';')
 						print (time.strftime("%Y-%m-%d %H:%M"))
 						print ("TEMPERATURE = "+str(data_split[0]))
+						read_value_in_sensor(data_split[0], id_sensor_temperature)
 						print ('LEVEL WATER = '+str(data_split[1]))
+						read_value_in_sensor(data_split[1], id_sensor_level)
 						print ('LUMINOSITY = '+str(data_split[2]))
+						read_value_in_sensor(data_split[2], id_sensor_luminosity)
 						print ('WATER VALVE = '+str(data_split[3]))
+						read_value_in_sensor(data_split[3], id_sensor_valve)
 						print ('=============================')
 						data = data[data_end+1:]
 						break 
@@ -93,6 +97,9 @@ while 1:
 					break
 		if text == "exit":
 			break
+
+		time.sleep(60*get_seding_time(id_sm))
+		
 sock.close()
 print ("end connection...")
 

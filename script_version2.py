@@ -74,7 +74,7 @@ while 1:
 
 		if text == "2": # receive data
 			data = ""
-			while 1: 
+			while 1:
 				try:
 					data += sock.recv(1024).decode('utf-8')
 					data_end = data.find('\n')

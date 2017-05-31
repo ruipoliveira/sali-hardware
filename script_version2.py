@@ -66,14 +66,16 @@ sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
 sock.connect((target_address,port))
 
 print ("connection established...")
-
+status = "1" 
+request_data = "2"
 while 1:
 	
 		#text = input()
-		status = 1 
-		request_data = 2
+
 		sock.send(bytes(status, 'UTF-8'))
+		print  ("send status")
 		sock.send(bytes(request_data, 'UTF-8'))
+		print ("request data")
 
 		data = ""
 		while 1:

@@ -69,37 +69,37 @@ print ("connection established...")
 
 while 1:
 	
-		text = input()
-		sock.send(bytes(text, 'UTF-8'))
+		#text = input()
+		status = 1 
+		request_data = 2
+		sock.send(bytes(status, 'UTF-8'))
+		sock.send(bytes(request_data, 'UTF-8'))
 
-		if text == "2": # receive data
-			data = ""
-			while 1:
-				try:
-					data += sock.recv(1024).decode('utf-8')
-					data_end = data.find('\n')
-					if data_end != -1:
-						rec = data[:data_end]
-						data_split = data.rstrip().split(';')
-						print (time.strftime("%Y-%m-%d %H:%M"))
-						print ("TEMPERATURE = "+str(data_split[0]))
-						read_value_in_sensor(data_split[0], id_sensor_temperature)
-						print ('LEVEL WATER = '+str(data_split[1]))
-						read_value_in_sensor(data_split[1], id_sensor_level)
-						print ('LUMINOSITY = '+str(data_split[2]))
-						read_value_in_sensor(data_split[2], id_sensor_luminosity)
-						print ('WATER VALVE = '+str(data_split[3]))
-						read_value_in_sensor(data_split[3], id_sensor_valve)
-						print ('=============================')
-						data = data[data_end+1:]
-						break 
-				except KeyboardInterrupt:
-					break
-		if text == "exit":
-			break
+		data = ""
+		while 1:
+			try:
+				data += sock.recv(1024).decode('utf-8')
+				data_end = data.find('\n')
+				if data_end != -1:
+					rec = data[:data_end]
+					data_split = data.rstrip().split(';')
+					print (time.strftime("%Y-%m-%d %H:%M"))
+					print ("TEMPERATURE = "+str(data_split[0]))
+					read_value_in_sensor(data_split[0], id_sensor_temperature)
+					print ('LEVEL WATER = '+str(data_split[1]))
+					read_value_in_sensor(data_split[1], id_sensor_level)
+					print ('LUMINOSITY = '+str(data_split[2]))
+					read_value_in_sensor(data_split[2], id_sensor_luminosity)
+					print ('WATER VALVE = '+str(data_split[3]))
+					read_value_in_sensor(data_split[3], id_sensor_valve)
+					print ('=============================')
+					data = data[data_end+1:]
+					break 
+			except KeyboardInterrupt:
+				break
 
 		time.sleep(60*get_seding_time(id_sm))
-		
+
 sock.close()
 print ("end connection...")
 

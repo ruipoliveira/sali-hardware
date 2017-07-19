@@ -42,23 +42,18 @@ void loop(){
     }
     
   }
-  delay(100); // prepare for next data ...
-
-  Serial.print(readTemperature(port_temperature));
-  Serial.print(";");
-  Serial.print(readWaterLevel(port_level));
-  Serial.print(";");
-  Serial.print(readLuminosity(port_luminosity));
-  Serial.print(";");
-  Serial.print(readWaterValve(port_valve));
-  Serial.print("\n");
+  //delay(100); // prepare for next data ...
       
 }// END loop()  
 
 
 /* read luminosity in port analog */
 long readLuminosity(int port){
-  return analogRead(port);
+  float val = 0, val1=0; 
+  val = analogRead(port); 
+  val1 = ((val-790)*100)/(1022-790); 
+
+  return val1;
 }
 
 /* read water level in port digital*/

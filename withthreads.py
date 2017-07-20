@@ -77,8 +77,8 @@ if __name__ == "__main__":
 
 	thread_receiveData = Thread(target=receiveData, args=[sock])
 
-	print "Start thread controller"
+	print ("Start thread controller")
 	thread_controller.start()
 
-	print "Start thread receive data"
+	print ("Start thread receive data")
 	thread_receiveData.start()

@@ -43,8 +43,33 @@ def controllerValve(sock):
 
 def receiveData(sock):
 	while 1 :
-		print ("sendddd cenas")
-		time.sleep(5)
+sock.send(bytes(request_data, 'UTF-8'))
+		print ("request data")
+
+		data = ""
+		while 1:
+			try:
+				data += sock.recv(1024).decode('utf-8')
+				data_end = data.find('\n')
+				if data_end != -1:
+					rec = data[:data_end]
+					data_split = data.rstrip().split(';')
+					print (time.strftime("%Y-%m-%d %H:%M"))
+					print ("TEMPERATURE = "+str(data_split[0]))
+					read_value_in_sensor(data_split[0], id_sensor_temperature)
+					print ('LEVEL WATER = '+str(data_split[1]))
+					read_value_in_sensor(data_split[1], id_sensor_level)
+					print ('LUMINOSITY = '+str(data_split[2]))
+					read_value_in_sensor(data_split[2], id_sensor_luminosity)
+					print ('WATER VALVE = '+str(data_split[3]))
+					read_value_in_sensor(data_split[3], id_sensor_valve)
+					print ('=============================')
+					data = data[data_end+1:]
+					break 
+			except KeyboardInterrupt:
+				break
+
+		time.sleep(60*get_seding_time(id_sm))
 
 
 if __name__ == "__main__":
@@ -70,7 +95,6 @@ if __name__ == "__main__":
 	print ("connection established...")
 	status = "1" 
 	request_data = "2"
-
 
 
 	thread_controller = Thread(target=controllerValve, args=[sock])

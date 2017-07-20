@@ -43,7 +43,7 @@ def controllerValve(sock):
 
 def receiveData(sock):
 	while 1 :
-sock.send(bytes(request_data, 'UTF-8'))
+		sock.send(bytes(request_data, 'UTF-8'))
 		print ("request data")
 
 		data = ""

@@ -68,7 +68,7 @@ def controllerValve(sock):
 		sock.send(bytes(status, 'UTF-8'))
 		#time.sleep(20)
 
-def receiveData(sock):
+def receiveData(sock, lock):
 	while 1 :
 		sock.send(bytes(request_data, 'UTF-8'))
 		print ("request data")
@@ -95,8 +95,10 @@ def receiveData(sock):
 					break 
 			except KeyboardInterrupt:
 				break
+		
+		with lock:
 
-		time.sleep(60*get_seding_time(id_sm))
+			time.sleep(60*get_seding_time(id_sm))
 
 
 if __name__ == "__main__":
@@ -124,10 +126,12 @@ if __name__ == "__main__":
 	status = "1" 
 	request_data = "2"
 
+	lock = threading.Lock()
 
-	thread_controller = Thread(target=controllerValve, args=[sock])
 
-	thread_receiveData = Thread(target=receiveData, args=[sock])
+	thread_controller = Thread(target=controllerValve, args=[sock, lock])
+
+	thread_receiveData = Thread(target=receiveData, args=[sock, lock])
 
 	print ("Start thread controller")
 	thread_controller.start()

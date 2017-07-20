@@ -11,6 +11,7 @@ import string
 import random
 import commands
 
+
 auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
 
 id_sensor_temperature = 8

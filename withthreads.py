@@ -61,6 +61,7 @@ def get_status_valve(id_sensor_valve): # in minutos
 
 
 def controllerValve(sock):
+<<<<<<< Updated upstream
 	last_status =0
 	while 1 :
 		status = get_status_valve(id_sensor_valve)
@@ -77,6 +78,17 @@ def controllerValve(sock):
 def receiveData(sock,request_data_op):
 	while 1 :
 		sock.send(bytes(request_data_op, 'UTF-8'))
+=======
+	while 1 :
+		status = get_status_valve(id_sensor_valve)
+		print (status)
+		sock.send(bytes(status, 'UTF-8'))
+		#time.sleep(20)
+
+def receiveData(sock):
+	while 1 :
+		sock.send(bytes(request_data, 'UTF-8'))
+>>>>>>> Stashed changes
 		print ("request data")
 
 		data = ""	
@@ -125,14 +137,22 @@ if __name__ == "__main__":
 
 	sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
 	sock.connect((target_address,port))
+<<<<<<< Updated upstream
 	
+=======
+	sock.listen(2)
+>>>>>>> Stashed changes
 
 	print ("connection established...")
 	request_data_op = "2"
 
 	thread_controller = Thread(target=controllerValve, args=[sock])
 
+<<<<<<< Updated upstream
 	thread_receiveData = Thread(target=receiveData, args=[sock,request_data_op])
+=======
+	thread_receiveData = Thread(target=receiveData, args=[sock])
+>>>>>>> Stashed changes
 
 	print ("Start thread controller")
 	thread_controller.start()

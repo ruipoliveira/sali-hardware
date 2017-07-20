@@ -62,13 +62,12 @@ def get_status_valve(id_sensor_valve): # in minutos
 
 
 def controllerValve(sock):
-    while 1 :
-
-	    status = get_status_valve(id_sensor_valve)
+	while 1 :
+		status = get_status_valve(id_sensor_valve)
 
 		sock.send(bytes(status, 'UTF-8'))
 		print  ("send status")
-	    #time.sleep(20)
+		#time.sleep(20)
 
 def receiveData(sock):
 	while 1 :

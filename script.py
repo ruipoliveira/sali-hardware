@@ -60,7 +60,7 @@ def get_status_valve(id_sensor_valve): # in minutos
 	return state
 
 
-def controllerValve(sock):
+def controllerValve(socket_bluetooth):
 	last_status =0
 	while 1 :
 		status = get_status_valve(id_sensor_valve)
@@ -68,21 +68,21 @@ def controllerValve(sock):
 		
 		#send status if status is not equal last status 		
 		if status != last_status: 
-			sock.send(bytes(str(status), 'UTF-8'))
+			socket_bluetooth.send(bytes(str(status), 'UTF-8'))
 			last_status=status
 			print ("Send.. "+str(status)) 
 		
 		#time.sleep(1) #debug
 
-def receiveData(sock,request_data_op):
+def receiveData(socket_bluetooth,request_data_op):
 	while 1 :
-		sock.send(bytes(request_data_op, 'UTF-8'))
+		socket_bluetooth.send(bytes(request_data_op, 'UTF-8'))
 		print ("request data")
 
 		data = ""	
 		while 1:
 			try:
-				data += sock.recv(1024).decode('utf-8')
+				data += socket_bluetooth.recv(1024).decode('utf-8')
 				data_end = data.find('\n')
 				if data_end != -1:
 					rec = data[:data_end]
@@ -123,16 +123,15 @@ if __name__ == "__main__":
 	for services in bluetooth.find_service(address = target_address):
 		print (" Port: %s" % (services["port"]))
 
-	sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
-	sock.connect((target_address,port))
+	socket_bluetooth = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
+	socket_bluetooth.connect((target_address,port))
 	
-
 	print ("connection established...")
 	request_data_op = "2"
 
-	thread_controller = Thread(target=controllerValve, args=[sock])
+	thread_controller = Thread(target=controllerValve, args=[socket_bluetooth])
 
-	thread_receiveData = Thread(target=receiveData, args=[sock,request_data_op])
+	thread_receiveData = Thread(target=receiveData, args=[socket_bluetooth,request_data_op])
 
 	print ("Start thread controller")
 	thread_controller.start()

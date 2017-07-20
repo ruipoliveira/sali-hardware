@@ -20,7 +20,6 @@ import json
 from time import sleep
 import string
 import random
-import threading
 
 
 auth={'Authorization': 'Token a9f6b9abaa2519650a7625d78c3f52eb1c629f08'}
@@ -62,22 +61,22 @@ def get_status_valve(id_sensor_valve): # in minutos
 	return state
 
 
-def controllerValve(sock):
+def controllerValve(sock1):
 	while 1 :
 		status = get_status_valve(id_sensor_valve)
 		print (status)
-		sock.send(bytes(status, 'UTF-8'))
+		sock1.send(bytes(status, 'UTF-8'))
 		#time.sleep(20)
 
-def receiveData(sock, lock):
+def receiveData(sock2):
 	while 1 :
-		sock.send(bytes(request_data, 'UTF-8'))
+		sock2.send(bytes(request_data, 'UTF-8'))
 		print ("request data")
 
 		data = ""	
 		while 1:
 			try:
-				data += sock.recv(1024).decode('utf-8')
+				data += sock2.recv(1024).decode('utf-8')
 				data_end = data.find('\n')
 				if data_end != -1:
 					rec = data[:data_end]
@@ -96,10 +95,8 @@ def receiveData(sock, lock):
 					break 
 			except KeyboardInterrupt:
 				break
-		
-		with lock:
 
-			time.sleep(60*get_seding_time(id_sm))
+		time.sleep(60*get_seding_time(id_sm))
 
 
 if __name__ == "__main__":
@@ -120,8 +117,11 @@ if __name__ == "__main__":
 	for services in bluetooth.find_service(address = target_address):
 		print (" Port: %s" % (services["port"]))
 
-	sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
-	sock.connect((target_address,port))
+	sock1 = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
+	sock1.connect((target_address,port))
+	
+	sock2 = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
+	sock2.connect((target_address,port))
 
 	print ("connection established...")
 	status = "1" 
@@ -130,9 +130,9 @@ if __name__ == "__main__":
 	lock = threading.Lock()
 
 
-	thread_controller = Thread(target=controllerValve, args=[sock, lock])
+	thread_controller = Thread(target=controllerValve, args=[sock1])
 
-	thread_receiveData = Thread(target=receiveData, args=[sock, lock])
+	thread_receiveData = Thread(target=receiveData, args=[sock2])
 
 	print ("Start thread controller")
 	thread_controller.start()

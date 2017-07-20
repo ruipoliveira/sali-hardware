@@ -10,7 +10,6 @@
 
 #!/usr/bin/python
 
-
 import time, sys
 from threading import Thread
 import bluetooth
@@ -61,22 +60,29 @@ def get_status_valve(id_sensor_valve): # in minutos
 	return state
 
 
-def controllerValve(sock1):
+def controllerValve(sock):
+	last_status =0
 	while 1 :
 		status = get_status_valve(id_sensor_valve)
-		print (status)
-		sock1.send(bytes(status, 'UTF-8'))
-		#time.sleep(20)
+		#status = random.getrandbits(1) # with debug
+		
+		#send status if status is not equal last status 		
+		if status != last_status: 
+			sock.send(bytes(str(status), 'UTF-8'))
+			last_status=status
+			print ("Send.. "+str(status)) 
+		
+		#time.sleep(1) #debug
 
-def receiveData(sock2):
+def receiveData(sock,request_data_op):
 	while 1 :
-		sock2.send(bytes(request_data, 'UTF-8'))
+		sock.send(bytes(request_data_op, 'UTF-8'))
 		print ("request data")
 
 		data = ""	
 		while 1:
 			try:
-				data += sock2.recv(1024).decode('utf-8')
+				data += sock.recv(1024).decode('utf-8')
 				data_end = data.find('\n')
 				if data_end != -1:
 					rec = data[:data_end]
@@ -117,22 +123,16 @@ if __name__ == "__main__":
 	for services in bluetooth.find_service(address = target_address):
 		print (" Port: %s" % (services["port"]))
 
-	sock1 = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
-	sock1.connect((target_address,port))
+	sock = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
+	sock.connect((target_address,port))
 	
-	sock2 = bluetooth.BluetoothSocket (bluetooth.RFCOMM)
-	sock2.connect((target_address,port))
 
 	print ("connection established...")
-	status = "1" 
-	request_data = "2"
+	request_data_op = "2"
 
-	lock = threading.Lock()
+	thread_controller = Thread(target=controllerValve, args=[sock])
 
-
-	thread_controller = Thread(target=controllerValve, args=[sock1])
-
-	thread_receiveData = Thread(target=receiveData, args=[sock2])
+	thread_receiveData = Thread(target=receiveData, args=[sock,request_data_op])
 
 	print ("Start thread controller")
 	thread_controller.start()

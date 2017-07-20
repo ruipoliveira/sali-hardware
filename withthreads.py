@@ -38,12 +38,12 @@ def read_value_in_sensor(value, id_sensor):
 
 def controllerValve(sock):
     while 1 :
-	    print "eiii controle "
+	    print ("eiii controle ")
 	    time.sleep(20)
 
 def receiveData(sock):
 	while 1 :
-		print "sendddd cenas"
+		print ("sendddd cenas")
 		time.sleep(5)
 
 

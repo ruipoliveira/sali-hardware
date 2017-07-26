@@ -33,10 +33,19 @@ id_sensor_valve = 18
 target_name = "HC-06"
 target_address = None 
 port = 1
+response_last_time = None
+response_last_status = None
 
 def get_seding_time(id_sm): # in minutos
 	url = 'http://192.168.160.20/api/sm/'+str(id_sm)
-	response = requests.get(url, headers=auth )
+	global response_last_time
+
+	try:
+		response = requests.get(url, headers=auth ) 
+		response_last_time = response
+	except requests.ConnectionError:
+		response = response_last_time
+
 	data = response.json()
 	return data['seding_time']
 
@@ -50,7 +59,15 @@ def read_value_in_sensor(value, id_sensor):
 	
 def get_status_valve(id_sensor_valve): # in minutos
 	url = 'http://192.168.160.20/api/sensor/'+str(id_sensor_valve)
-	response = requests.get(url, headers=auth )
+	
+	global response_last_status
+
+	try:
+		response = requests.get(url, headers=auth ) 
+		response_last_status = response
+	except requests.ConnectionError:
+		response = response_last_status
+		
 	data = response.json()
 	
 	state = 0 

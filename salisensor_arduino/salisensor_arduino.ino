@@ -51,7 +51,7 @@ void loop(){
 long readLuminosity(int port){
   float val = 0, val1=0; 
   val = analogRead(port); 
-  val1 = ((val-790)*100)/(1022-790); 
+  val1 = ((val-10)*100)/(1022-10); 
 
   return val1;
 }

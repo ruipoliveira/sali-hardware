@@ -4,8 +4,8 @@
 # Author: Rui Oliveira             #
 # Email: ruipedrooliveira@ua.pt    #
 # Date create: 29-03-2017          #
-# Date last modified: 20-07-2017   #
-# Python Version: 2.7              #
+# Date last modified: 01-08-2017   #
+# Python Version: 3                #
 ####################################
 
 #!/usr/bin/python

@@ -1,10 +1,10 @@
-# Monitorization and control system of the production of Salicornia in the Ria de Aveiro
+## Monitorization and control system of the production of Salicornia in the Ria de Aveiro
 
-## salicornia project: Hardware simulation 
+### salicornia project: Hardware simulation 
 
 [About salicornia...](https://www.finedininglovers.com/blog/food-drinks/salicornia/)
 
-### All repositories
+#### All repositories
 
 * [report (pdf) ](https://github.com/ruipoliveira)
 * [dashboard + API](https://github.com/ruipoliveira)
@@ -12,7 +12,7 @@
 * [video surveillance with detection](https://github.com/ruipoliveira)
 
 
-### Overview
+#### Overview
 
 ![alt text](https://github.com/ruipoliveira/sali-sensor/blob/master/resources/comm.png)
 
@@ -31,9 +31,9 @@
 * python script for bluetooth 4.0 communication with Bluetooth module HC-06; send data to API. 
 
 
-### Author
+#### Author
 * Rui Oliveira (ruipedrooliveira@ua.pt)
 
-###License
+####License
 
 MIT

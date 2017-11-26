@@ -1,15 +1,13 @@
 ### Monitorization and control system of the production of Salicornia in the Ria de Aveiro
 
-#### Salicornia project: Hardware simulation 
-
-[About salicornia...](https://www.finedininglovers.com/blog/food-drinks/salicornia/)
+#### Hardware simulation 
 
 #### All repositories
 
-* [report (pdf) ](https://github.com/ruipoliveira)
-* [dashboard + API](https://github.com/ruipoliveira)
-* [hardware simulation](https://github.com/ruipoliveira)
-* [video surveillance with detection](https://github.com/ruipoliveira)
+* [sali-report](https://github.com/ruipoliveira/sali-report)
+* [sali-dashboard](https://github.com/ruipoliveira/sali-dashboard)
+* [sali-hardware](https://github.com/ruipoliveira/sali-hardware)
+* [sali-surveillance](https://github.com/ruipoliveira/sali-surveillance)
 
 
 #### Overview
